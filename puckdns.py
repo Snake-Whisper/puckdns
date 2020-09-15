@@ -1,6 +1,7 @@
 import requests
 from xml.dom import minidom
 from html.parser import HTMLParser
+from exceptions import *
 
 
 class _MyParser(HTMLParser):
@@ -17,23 +18,27 @@ class _MyParser(HTMLParser):
 class API():
     """API for working with puck.nether.net/dns"""
 
+    __loggedIn = False
+
     def login(self, username, password):
         self.r = requests.post("https://puck.nether.net/dns/login", data={'username': username, 'password': password})
-        assert self.r.url == 'https://puck.nether.net/dns/dnsinfo', "[FATAL] Login Failed"
+        if self.r.url != 'https://puck.nether.net/dns/dnsinfo':
+            raise LoginFailed(username)
         self.cookies = self.r.cookies
-        self.loggedIn = True
+        self.__loggedIn = True
 
     def logout(self):
-        if self.loggedIn:
+        if self.__loggedIn:
             self._logout()
 
     def _logout(self):
         self.r = requests.get("https://puck.nether.net/dns/logout", cookies=self.cookies)
-        self.loggedIn = False
+        self.__loggedIn = False
         del self.cookies
 
     def __runTests(self):
-        assert self.loggedIn, "Please login first"
+        if not self.__loggedIn:
+            raise NotLoggedIn()
 
     def get_DNS_Info_TD(self):
         self.__runTests()
@@ -62,4 +67,3 @@ class API():
     def setAllIP(self, ip):
         for domain in self.getDomains():
             self.set_IP(domain, ip)
-
