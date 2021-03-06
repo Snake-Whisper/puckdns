@@ -16,7 +16,6 @@ class _MyParser(HTMLParser):
             elif attrs == [('id', 'message'), ('class', 'message')]:
                 msgStart = self.getpos()[1] + len('<span id="message" class="message">')
                 self.infomsg = self.rawdata[msgStart:self.rawdata.find("</span>", msgStart)]
-                print (self.infomsg)
 
     def handle_endtag(self, tag):
         if tag == "table":
@@ -38,6 +37,9 @@ class API():
         self.__loggedIn = True
         self.__username = username
         self.__pwd = password
+    
+    def isLoggedIn(self):
+        return self.__loggedIn
 
     def logout(self):
         """Logout from puck dns service"""
