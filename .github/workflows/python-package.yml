@@ -38,5 +38,9 @@ jobs:
       run: |
         echo "PYTHONPATH=puck-dns-api" >> $GITHUB_ENV
     - name: Test with pytest
+      env:
+        PUCKDNS_PASSWORD: ${{ secrets.PUCKDNS_PASSWORD }}
+        PUCKDNS_USERNAME: ${{ secrets.PUCKDNS_USERNAME }}
+        PUCKDNS_DOMAIN: ${{ secrets.PUCKDNS_DOMAIN }}
       run: |
         cd puck_dns_api && python -m pytest
