@@ -43,4 +43,4 @@ jobs:
         PUCKDNS_USERNAME: ${{ secrets.PUCKDNS_USERNAME }}
         PUCKDNS_DOMAIN: ${{ secrets.PUCKDNS_DOMAIN }}
       run: |
-        python -m pytest
+        cd puck_dns_api && python -m pytest
