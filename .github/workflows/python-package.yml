@@ -39,4 +39,4 @@ jobs:
         echo "PYTHONPATH=puck-dns-api" >> $GITHUB_ENV
     - name: Test with pytest
       run: |
-        pytest
+        python -m pytest pytest
