@@ -1,8 +1,7 @@
 import requests
 from xml.dom import minidom
 from html.parser import HTMLParser
-from puckdnsExceptions import *
-
+from .puckdnsExceptions import *
 
 class _MyParser(HTMLParser):
     """Help util to find 'DOM part' of response"""
