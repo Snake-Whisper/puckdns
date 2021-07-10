@@ -5,7 +5,7 @@ name: Python package
 
 on:
   push:
-    branches: [ master, pipe, tox ]
+    branches: [ master, pipe ]
   pull_request:
     branches: [ master ]
 
@@ -30,28 +30,10 @@ jobs:
     - name: Build Package
       run: |
         python -m build
-    #- name: Install package with dependencies
-    #  run: |
-    #    pip3 install .
-    #- name: Install dependencies
-    #  run: |
-    #    python -m pip install --upgrade pip
-    #    python -m pip install flake8 pytest wheel requests
-    #- name: Lint with flake8
-    #  run: |
-    #    # stop the build if there are Python syntax errors or undefined names
-    #    flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    #    # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-    #    flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    #- name: set pythonpath
-    #  run: |
-    #    echo "PYTHONPATH=puck-dns-api" >> $GITHUB_ENV
-    - name: Test with pytest using tox
+    - name: Run tox
       env:
         PUCKDNS_PASSWORD: ${{ secrets.PUCKDNS_PASSWORD }}
         PUCKDNS_USERNAME: ${{ secrets.PUCKDNS_USERNAME }}
         PUCKDNS_DOMAIN: ${{ secrets.PUCKDNS_DOMAIN }}
       run: |
         tox
-#        python setup.py test
-    #    cd puck_dns_api && python -m pytest
