@@ -1,5 +1,5 @@
 from socket import gethostbyname
-from puckdnsExceptions import *
+from puckdns.puckdnsExceptions import *
 import puckdns
 import os
 import unittest
@@ -10,6 +10,9 @@ TESTDOMAINS = ["puckdns-py-api.ml", "puckdns2-py-api.ml", "puckdns3-py-api.ml"]
 class A_TestPuckDnsApiLogin(unittest.TestCase):
     def setUp(self):
         self.puck = puckdns.API()
+    
+    def tearDown(self):
+        del self.puck
 
     def test_instance(self):
         self.assertTrue(isinstance(self.puck, puckdns.API))
@@ -55,6 +58,7 @@ class B_PuckDnsApi(unittest.TestCase):
     def tearDown(self):
         self.puck.logout()
         self.assertFalse(self.puck.isLoggedIn())
+        del self.puck
 
     def test_a_tests_working(self):
         self.assertTrue("FOO".isupper())
