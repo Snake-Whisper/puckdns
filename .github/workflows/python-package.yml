@@ -5,7 +5,7 @@ name: Python package
 
 on:
   push:
-    branches: [ master, pipe ]
+    branches: [ master, pipe, tox ]
   pull_request:
     branches: [ master ]
 
@@ -26,13 +26,13 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip build
+        python -m pip install --upgrade pip build tox
     - name: Build Package
       run: |
         python -m build
-    - name: Install package with dependencies
-      run: |
-        pip3 install .
+    #- name: Install package with dependencies
+    #  run: |
+    #    pip3 install .
     #- name: Install dependencies
     #  run: |
     #    python -m pip install --upgrade pip
@@ -46,11 +46,12 @@ jobs:
     #- name: set pythonpath
     #  run: |
     #    echo "PYTHONPATH=puck-dns-api" >> $GITHUB_ENV
-    - name: Test with pytest
+    - name: Test with pytest using tox
       env:
         PUCKDNS_PASSWORD: ${{ secrets.PUCKDNS_PASSWORD }}
         PUCKDNS_USERNAME: ${{ secrets.PUCKDNS_USERNAME }}
         PUCKDNS_DOMAIN: ${{ secrets.PUCKDNS_DOMAIN }}
       run: |
-        python setup.py test
+        tox
+#        python setup.py test
     #    cd puck_dns_api && python -m pytest
