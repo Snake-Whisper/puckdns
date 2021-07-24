@@ -1,11 +1,13 @@
 import setuptools
 
+__VERSION__ = '0.0.1'
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
+    version=__VERSION__,
     name="puck-dns-api",
-    version="0.0.1",
     author="Snake-Whisper",
     author_email="snake-whisper@web-utils.eu",
     description="Python API for the great free DNS Service \"PUCK\" from Daniel J. Luke (http://puck.nether.net/dns)",
@@ -24,5 +26,10 @@ setuptools.setup(
     ],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
-    python_requires='>=3.6'
+    python_requires='>=3.6',
+    command_options={
+        'build_sphinx': {
+            'version': ('setup.py', __VERSION__),
+            'release': ('setup.py', __VERSION__),
+            'source_dir': ('setup.py', 'doc')}},
 )
