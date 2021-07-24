@@ -17,7 +17,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'puck-dns-api'
+project = 'puckdns'
 copyright = '2021, snake-whisper'
 author = 'snake-whisper'
 

@@ -1,4 +1,4 @@
-# puck-dns-api
+# puckdns
 
 Python API for the great free DNS Service "PUCK" (http://puck.nether.net/dns)
 

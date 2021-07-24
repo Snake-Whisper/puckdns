@@ -7,13 +7,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     version=__VERSION__,
-    name="puck-dns-api",
+    name="puckdns",
     author="Snake-Whisper",
     author_email="snake-whisper@web-utils.eu",
     description="Python API for the great free DNS Service \"PUCK\" from Daniel J. Luke (http://puck.nether.net/dns)",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Snake-Whisper/puck-dns-api",
+    url="https://github.com/Snake-Whisper/puckdns",
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
     install_requires=[

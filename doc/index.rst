@@ -1,9 +1,9 @@
-.. puck-dns-api documentation master file, created by
+.. puckdns documentation master file, created by
    sphinx-quickstart on Sun Jul 18 11:25:14 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to puck-dns-api's documentation!
+Welcome to puckdns documentation!
 ========================================
 
 .. toctree::
@@ -17,7 +17,7 @@ Installation or upgrade
 -----------------------
 .. code-block:: bash
 
-   pip3 install -U puck-dns-api
+   pip3 install -U puckdns
 
 Get started
 -----------
