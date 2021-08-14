@@ -1,6 +1,6 @@
 from urllib import request
 from urllib.parse import urlencode
-import http.cookiejar
+from http.cookiejar import CookieJar
 from .puckdnsExceptions import *
 from .puckDnsParser import PuckDnsParser
 
@@ -8,7 +8,7 @@ class API():
     """API for working with https://puck.nether.net/dns"""
 
     __loggedIn = False
-    __cookiejar = http.cookiejar.CookieJar()
+    __cookiejar = CookieJar()
     __HTTPRequestHandler = request.build_opener(request.HTTPCookieProcessor(__cookiejar))
     url = "https://puck.nether.net/dns/dnsinfo"
 
@@ -41,29 +41,15 @@ class API():
         """Check preconditions like successful login before performing requests to puck dns service"""
         if not self.__loggedIn:
             raise NotLoggedIn()
-
-    def __makeGetRequest(self, location, expectedMsg):
+    
+    def __makeRequest(self, location, expectedMsg, payload=None):
         self.__runTests()
         
         url = self.url + location
-        req = request.Request(url)
-        answer = self.__HTTPRequestHandler.open(req)
-        if answer.url == "https://puck.nether.net/dns/login":
-            self.login(self.__username, self.__pwd)
-            answer = self.__HTTPRequestHandler.open(req)
-        parser = PuckDnsParser()
-        parser.feed(answer.read().decode().replace("\n", ""))
-        if parser.errormsg != '':
-            raise PuckDnsError(expectedMsg, parser.errormsg, url)
-        if parser.infomsg != expectedMsg:
-            raise PuckDnsWrongMsg(expectedMsg, parser.infomsg, url)
-        return parser
-        
-    def __makePostRequest(self, location, payload, expectedMsg):
-        self.__runTests()
-        
-        url = self.url + location
-        req = request.Request(url, urlencode(payload).encode())
+        if payload:
+            req = request.Request(url, urlencode(payload).encode())
+        else:
+            req = request.Request(url)
         answer = self.__HTTPRequestHandler.open(req)
         if answer.url == "https://puck.nether.net/dns/login":
             self.login(self.__username, self.__pwd)
@@ -78,7 +64,7 @@ class API():
 
     def get_DNS_Info_TD (self):
         """Returns extracted table data from puck dns service"""
-        parser = self.__makeGetRequest("", "")
+        parser = self.__makeRequest("", "")
         return parser.table.getElementsByTagName("td")
 
     def getDomains (self):
@@ -89,7 +75,7 @@ class API():
     def set_IP (self, domain, ip):
         """Sets IP address for specific domains from puck dns service"""
         payload = {"domainname": domain, "masterip": ip, "aa": "Y", "submit": "Submit"}
-        self.__makePostRequest(f"/edit/{domain}", payload, "Domain successfully edited.")
+        self.__makeRequest(f"/edit/{domain}", "Domain successfully edited.", payload)
 
     def get_IP (self, domain):
         """Gets IP address for specific domains from puck dns service"""
@@ -105,16 +91,16 @@ class API():
     def addDomain (self, ip, domain):
         """Add domain to puck DNS"""
         payload = {"domainname": domain, "masterip": ip, "submit": "Submit"}
-        self.__makePostRequest("/add", payload, "Inserted new domain.")
+        self.__makeRequest("/add", "Inserted new domain.", payload)
 
     def addDomains (self, ip, domainsList):
         """Add multiple domain entries at once"""
         data = {"domains": "\n".join(domainsList), "masterip": ip, "submit": "Submit"}
-        self.__makePostRequest("/bulk_add", data, "Domains inserted.")
+        self.__makeRequest("/bulk_add", "Domains inserted.", data)
 
     def delDomain(self, domain):
         """Delete domain from puck DNS"""
-        self.__makeGetRequest(f"/delete/{domain}", f"{domain} successfully removed.")
+        self.__makeRequest(f"/delete/{domain}", f"{domain} successfully removed.")
 
     def delDomains(self, domainList):
         """Delete Multiple Domains"""
