@@ -1,4 +1,6 @@
-import requests
+from urllib import request
+from urllib.parse import urlencode
+import http.cookiejar
 from .puckdnsExceptions import *
 from .puckDnsParser import PuckDnsParser
 
@@ -6,18 +8,20 @@ class API():
     """API for working with https://puck.nether.net/dns"""
 
     __loggedIn = False
+    __cookiejar = http.cookiejar.CookieJar()
+    __HTTPRequestHandler = request.build_opener(request.HTTPCookieProcessor(__cookiejar))
     url = "https://puck.nether.net/dns/dnsinfo"
-    cookies = ""
 
     def login(self, username, password):
         """Login to puck dns service with given username and password"""
-        self.r = requests.post("https://puck.nether.net/dns/login", data={'username': username, 'password': password})
-        if self.r.url != 'https://puck.nether.net/dns/dnsinfo':
-            raise LoginFailed(username)
-        self.cookies = self.r.cookies
-        self.__loggedIn = True
-        self.__username = username
-        self.__pwd = password
+
+        req = request.Request("https://puck.nether.net/dns/login", urlencode({'username': username, 'password': password, 'submit':'Login'}).encode())
+        with self.__HTTPRequestHandler.open(req) as answer:
+            if answer.url != 'https://puck.nether.net/dns/dnsinfo':
+                raise LoginFailed(username)
+            self.__loggedIn = True
+            self.__username = username
+            self.__pwd = password
     
     def isLoggedIn(self):
         return self.__loggedIn
@@ -29,9 +33,9 @@ class API():
 
     def _logout(self):
         """Force logout from puck dns service"""
-        self.r = requests.get("https://puck.nether.net/dns/logout", cookies=self.cookies)
+        req = request.Request("https://puck.nether.net/dns/logout")
+        self.__HTTPRequestHandler.open(req)
         self.__loggedIn = False
-        del self.cookies
 
     def __runTests (self):
         """Check preconditions like successful login before performing requests to puck dns service"""
@@ -42,12 +46,13 @@ class API():
         self.__runTests()
         
         url = self.url + location
-        self.r = requests.get(url, cookies=self.cookies)
-        if self.r.url == "https://puck.nether.net/dns/login":
+        req = request.Request(url)
+        answer = self.__HTTPRequestHandler.open(req)
+        if answer.url == "https://puck.nether.net/dns/login":
             self.login(self.__username, self.__pwd)
-            self.r = requests.get(url, cookies=self.cookies)
+            answer = self.__HTTPRequestHandler.open(req)
         parser = PuckDnsParser()
-        parser.feed(self.r.text.replace("\n", ""))
+        parser.feed(answer.read().decode().replace("\n", ""))
         if parser.errormsg != '':
             raise PuckDnsError(expectedMsg, parser.errormsg, url)
         if parser.infomsg != expectedMsg:
@@ -58,12 +63,13 @@ class API():
         self.__runTests()
         
         url = self.url + location
-        self.r = requests.post(url, data=payload, cookies=self.cookies)
-        if self.r.url == "https://puck.nether.net/dns/login":
+        req = request.Request(url, urlencode(payload).encode())
+        answer = self.__HTTPRequestHandler.open(req)
+        if answer.url == "https://puck.nether.net/dns/login":
             self.login(self.__username, self.__pwd)
-            self.r = requests.post(url, data=payload, cookies=self.cookies)
+            answer = self.__HTTPRequestHandler(req)
         parser = PuckDnsParser()
-        parser.feed(self.r.text.replace("\n", ""))
+        parser.feed(answer.read().decode().replace("\n", ""))
         if parser.errormsg != '':
             raise PuckDnsError(expectedMsg, parser.errormsg, url)
         if parser.infomsg != expectedMsg:
