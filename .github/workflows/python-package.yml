@@ -32,12 +32,13 @@ jobs:
         PUCKDNS_PASSWORD: ${{ secrets.PUCKDNS_PASSWORD }}
         PUCKDNS_USERNAME: ${{ secrets.PUCKDNS_USERNAME }}
         PUCKDNS_DOMAIN: ${{ secrets.PUCKDNS_DOMAIN }}
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         tox
-    - uses: actions/checkout@master
-    - uses: codecov/codecov-action@v2
-      with:
-        flags: unittests # optional
-        name: codecov-umbrella # optional
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
+    #- uses: actions/checkout@master
+    #- uses: codecov/codecov-action@v2
+    #  with:
+    #    flags: unittests # optional
+    #    name: codecov-umbrella # optional
+    #    fail_ci_if_error: true # optional (default = false)
+    #    verbose: true # optional (default = false)
