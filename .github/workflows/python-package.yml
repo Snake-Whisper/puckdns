@@ -35,6 +35,11 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         tox
+    - name: Upload coverage to codecov.io
+      run: bash <(curl -s https://codecov.io/bash)
+      if: always()
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     #- uses: actions/checkout@master
     #- uses: codecov/codecov-action@v2
     #  with:
