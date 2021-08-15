@@ -35,15 +35,3 @@ jobs:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         tox
-    #- name: Upload coverage to codecov.io
-    #  run: bash <(curl -s https://codecov.io/bash)
-    #  if: always()
-    #  env:
-    #    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-    #- uses: actions/checkout@master
-    #- uses: codecov/codecov-action@v2
-    #  with:
-    #    flags: unittests # optional
-    #    name: codecov-umbrella # optional
-    #    fail_ci_if_error: true # optional (default = false)
-    #    verbose: true # optional (default = false)
