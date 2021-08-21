@@ -7,7 +7,7 @@ Welcome to puckdns documentation!
 =================================
 
 .. image:: https://codecov.io/gh/Snake-Whisper/puckdns/branch/master/graph/badge.svg?token=7R83F1FHXO
-:target: https://codecov.io/gh/Snake-Whisper/puckdns
+   :target: https://codecov.io/gh/Snake-Whisper/puckdns
 
 
 .. toctree::
