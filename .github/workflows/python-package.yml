@@ -36,7 +36,7 @@ jobs:
         tox
     - name: Upload test coverage results
       env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        #CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
         curl -Os https://uploader.codecov.io/latest/linux/codecov
@@ -45,6 +45,6 @@ jobs:
         gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
         shasum -a 256 -c codecov.SHA256SUM
         chmod +x codecov
-        ./codecov -t ${{ secrets.CODECOV_TOKEN }}
+        ./codecov
 
 
