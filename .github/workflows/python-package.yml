@@ -44,7 +44,9 @@ jobs:
         curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
         echo "echo hacked!" >> codecov
         gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
+        echo "---------------[ok1] executed!!!---------------"
         shasum -a 256 -c codecov.SHA256SUM
+        echo "---------------[FATAL] executed!!!---------------"
         chmod +x codecov
         ./codecov
 
