@@ -35,7 +35,7 @@ jobs:
       run: |
         tox
     - name: Upload test coverage results
-      env:
+      #env:
         #CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
