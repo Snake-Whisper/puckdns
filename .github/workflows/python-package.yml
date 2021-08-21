@@ -32,6 +32,19 @@ jobs:
         PUCKDNS_PASSWORD: ${{ secrets.PUCKDNS_PASSWORD }}
         PUCKDNS_USERNAME: ${{ secrets.PUCKDNS_USERNAME }}
         PUCKDNS_DOMAIN: ${{ secrets.PUCKDNS_DOMAIN }}
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         tox
+    - name: Upload test coverage results
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      run: |
+        curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
+        curl -Os https://uploader.codecov.io/latest/linux/codecov
+        curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+        curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+        gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
+        shasum -a 256 -c codecov.SHA256SUM
+        chmod +x codecov
+        ./codecov -t ${CODECOV_TOKEN}
+
+
