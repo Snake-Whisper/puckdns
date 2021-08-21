@@ -11,13 +11,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
       matrix:
         python-version: [3.6, 3.7, 3.8, 3.9]
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
@@ -35,19 +33,12 @@ jobs:
       run: |
         tox
     - name: Upload test coverage results
-      #env:
-        #CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       run: |
         curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --import # One-time step
         curl -Os https://uploader.codecov.io/latest/linux/codecov
         curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
         curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
-        echo "echo hacked!" >> codecov
         gpg --verify codecov.SHA256SUM.sig codecov.SHA256SUM
-        echo "---------------[ok1] executed!!!---------------"
         shasum -a 256 -c codecov.SHA256SUM
-        echo "---------------[FATAL] executed!!!---------------"
         chmod +x codecov
         ./codecov
-
-
