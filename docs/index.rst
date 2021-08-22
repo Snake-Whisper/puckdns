@@ -1,12 +1,5 @@
-.. puckdns documentation master file, created by
-   sphinx-quickstart on Sun Jul 18 11:25:14 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Puckdns documentation
 =====================
-
-|codecov| |githubCI|
 
 .. |codecov| image:: https://codecov.io/gh/Snake-Whisper/puckdns/branch/master/graph/badge.svg?token=7R83F1FHXO
    :target: https://codecov.io/gh/Snake-Whisper/puckdns
@@ -14,16 +7,19 @@ Puckdns documentation
 .. |githubCI| image:: https://github.com/Snake-Whisper/puckdns/actions/workflows/python-package.yml/badge.svg
    :target: https://github.com/Snake-Whisper/puckdns
 
-
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Contents:
-
+   :caption: Content
+   
    index
 
-This API provides access functionality to the `free secondary puck DNS <https://puck.nether.net/dns/>`_ service.
+|codecov| |githubCI|
 
+Description
+-----------
+
+This API provides access functionality to the `free secondary puck DNS <https://puck.nether.net/dns/>`_ service.
 
 Installation or upgrade
 -----------------------
@@ -32,8 +28,8 @@ Installation or upgrade
 
    pip3 install -U puckdns
 
-Get started
------------
+Getting started
+---------------
 
 .. code-block:: python
 
@@ -57,6 +53,7 @@ Get started
 
 API Reference
 -------------
+
 .. automodule:: puckdns
    :members:
 
