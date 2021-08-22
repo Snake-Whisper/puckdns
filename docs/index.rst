@@ -12,7 +12,10 @@ Welcome to puckdns documentation!
 
 .. toctree::
    :maxdepth: 2
+   :titlesonly:
    :caption: Contents:
+
+   api-referece
 
 This API provides access functionality to the `free secondary puck DNS <https://puck.nether.net/dns/>`_ service.
 
@@ -44,11 +47,6 @@ Get started
    finally:
       # close connection clean
       puck.logout()
-
-API Reference
--------------
-.. automodule:: puckdns
-   :members:
 
 Indices and tables
 ------------------
