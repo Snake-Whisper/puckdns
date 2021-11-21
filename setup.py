@@ -1,6 +1,17 @@
 import setuptools
+import os
 
-__VERSION__ = '0.0.1'
+__VERSION__ = 'N/A'
+
+if 'PUCKDNS_BUILD_VERSION' in os.environ:
+    __VERSION__ = os.getenv('PUCKDNS_BUILD_VERSION')
+elif 'GITHUB_REF_TYPE' in os.environ:
+    ref_type = os.getenv('GITHUB_REF_TYPE')
+    if ref_teype == 'tag' and 'GITHUB_REF_NAME' in os.environ:
+        __VERSION__ = os.getenv('GITHUB_REF_NAME')
+    elif ref_type == 'branch' and 'GITHUB_SHA' in os.environ:
+        __VERSION__ = os.getenv('GITHUB_SHA')
+    
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
