@@ -1,25 +1,18 @@
 import setuptools
 import os
 import sys
+
+# Get Version
 sys.path.append(os.path.dirname(__file__))
 import versioneer
-#__VERSION__ = 'N/A'
-#
-#if 'PUCKDNS_BUILD_VERSION' in os.environ:
-#    __VERSION__ = os.getenv('PUCKDNS_BUILD_VERSION')
-#elif 'GITHUB_REF_TYPE' in os.environ:
-#    ref_type = os.getenv('GITHUB_REF_TYPE')
-#    if ref_type == 'tag' and 'GITHUB_REF_NAME' in os.environ:
-#        __VERSION__ = os.getenv('GITHUB_REF_NAME')
-#    elif ref_type == 'branch' and 'GITHUB_SHA' in os.environ:
-#        __VERSION__ = os.getenv('GITHUB_SHA')
-    
+
+__VERSION__ = versioneer.get_version()
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    version=versioneer.get_version(),
+    version=__VERSION__,
     cmdclass=versioneer.get_cmdclass(),
     name="puckdns",
     author="Snake-Whisper",
@@ -40,7 +33,7 @@ setuptools.setup(
     python_requires='>=3.6',
     command_options={
         'build_sphinx': {
-            'version': ('setup.py', versioneer.get_version()),
-            'release': ('setup.py', versioneer.get_version()),
+            'version': ('setup.py', __VERSION__),
+            'release': ('setup.py', __VERSION__),
             'source_dir': ('setup.py', 'docs')}},
 )
