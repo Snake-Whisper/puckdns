@@ -1,8 +1,9 @@
 name: Deploy Python package
 
 on:
-  tags:
-  - '*.*.*'
+  push:
+    tags:
+    - '*'
 
 jobs:
   build-n-publish:
