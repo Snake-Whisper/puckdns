@@ -1,7 +1,7 @@
 name: Deploy Python package
 
 on:
-  release: [created]
+  release: [published]
 
 jobs:
   build-n-publish:
