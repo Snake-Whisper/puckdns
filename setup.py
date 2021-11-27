@@ -39,7 +39,7 @@ setuptools.setup(
     python_requires='>=3.6',
     command_options={
         'build_sphinx': {
-            'version': ('setup.py', __VERSION__),
-            'release': ('setup.py', __VERSION__),
+            'version': ('setup.py', versioneer.get_version()),
+            'release': ('setup.py', versioneer.get_version()),
             'source_dir': ('setup.py', 'docs')}},
 )
