@@ -62,31 +62,31 @@ class API():
             raise PuckDnsWrongMsg(expectedMsg, parser.infomsg, url)
         return parser
 
-    def get_DNS_Info_TD (self):
+    def getDNSInfoTD (self):
         """Returns extracted table data from puck dns service"""
         parser = self.__makeRequest("", "")
         return parser.table.getElementsByTagName("td")
 
     def getDomains (self):
         """Returns registered domains from puck dns service"""
-        tdList = self.get_DNS_Info_TD()
+        tdList = self.getDNSInfoTD()
         return [tdList[i].firstChild.data for i in range(len(tdList)) if i%7 == 2] #from 7 fields in able the 3rd one -> 0,1,2
 
-    def set_IP (self, domain, ip):
+    def setIP (self, domain, ip):
         """Sets IP address for specific domains from puck dns service"""
         payload = {"domainname": domain, "masterip": ip, "aa": "Y", "submit": "Submit"}
         self.__makeRequest(f"/edit/{domain}", "Domain successfully edited.", payload)
 
-    def get_IP (self, domain):
+    def getIP (self, domain):
         """Gets IP address for specific domains from puck dns service"""
-        tdList = self.get_DNS_Info_TD()
+        tdList = self.getDNSInfoTD()
         return [tdList[i+1].firstChild.data for i in range(len(tdList)) if i%7 == 2 and
                 tdList[i].firstChild.data == domain]
 
     def setAllIP (self, ip):
         """Set same master IP address for all domains registered at puck dns service with this user account"""
         for domain in self.getDomains():
-            self.set_IP(domain, ip)
+            self.setIP(domain, ip)
     
     def addDomain (self, ip, domain):
         """Add domain to puck DNS"""
