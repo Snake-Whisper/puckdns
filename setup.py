@@ -1,3 +1,6 @@
+import sys
+sys.path.append(os.dirname(__file__))
+
 import setuptools
 import os
 import versioneer
