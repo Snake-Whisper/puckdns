@@ -106,3 +106,6 @@ class API():
         """Delete Multiple Domains"""
         for domain in domainList:
             self.delDomain(domain)
+
+from . import _version
+__version__ = _version.get_versions()['version']
