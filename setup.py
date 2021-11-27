@@ -34,7 +34,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    setup_requires=['pytest-runner'],
+    setup_requires=['pytest-runner', 'versioneer'],
     tests_require=['pytest'],
     python_requires='>=3.6',
     command_options={
