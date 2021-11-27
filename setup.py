@@ -1,10 +1,8 @@
-import sys
-sys.path.append(os.dirname(__file__))
-
 import setuptools
 import os
+import sys
+sys.path.append(os.path.dirname(__file__))
 import versioneer
-
 #__VERSION__ = 'N/A'
 #
 #if 'PUCKDNS_BUILD_VERSION' in os.environ:
